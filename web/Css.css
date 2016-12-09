@@ -1,0 +1,49 @@
+body
+{
+    text-align:center; 
+    background-color:#E8D0A9;
+}
+#box
+{
+    background-color:#C1DAD6;
+    text-align: left;
+    display: inline-block;
+    margin:auto;
+    border-color: black;
+    border-width: 6px;
+    border-style: double;
+    font-size:24px;
+    padding: 10px;
+    border-radius: 30px;
+}
+input
+{
+    font-size:24px;
+}
+select
+{
+    font-size:24px; 
+}
+option
+{
+    font-size:24px;
+}
+h2
+{
+    text-align: center;
+}
+.container * {
+    padding: 5px;
+}
+input[type=button], input[type=submit], input[type=reset] {
+    border: none;
+    text-decoration: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding: 5px 10px;
+    background-color:#6D929B;
+}
+td
+{
+    font-size:24px;    
+}

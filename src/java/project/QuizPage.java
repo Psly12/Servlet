@@ -52,6 +52,7 @@ public class QuizPage extends HttpServlet {
             out.println("<title>"+subject+"</title>");            
             out.println("</head>");
             out.println("<body>");
+            out.println("<form>");
             for(int i=0;i<5;i++)
             {
                 rsq.absolute(arr[i]);
@@ -60,16 +61,20 @@ public class QuizPage extends HttpServlet {
                 ResultSet rsqn=pstmtqn.executeQuery();
                 while(rsqn.next())
                 {
-                    out.println(rsqn.getString("question")+"<br>");
+                    out.println("Q"+(i+1)+") "+rsqn.getString("question")+"<br>");
                     PreparedStatement pstmtopt=con.prepareStatement("select * from optmast where qid=?");
                     pstmtopt.setString(1,rsq.getString("qid"));
                     ResultSet rsopt=pstmtopt.executeQuery();
                     while(rsopt.next())
-                    {
+                    {                       
+                        out.println("<input type=\"radio\" name=\"q"+i+"\" value=\""+rsq.getString("qid")+rsopt.getString("opid")+"\">");
                         out.println(rsopt.getString("options")+"<br>");
                     }
                 }
             }
+            out.println("<input type=\"submit\" value=\"Submit\">");
+            out.println("<input type=\"reset\" value=\"Reset\">");
+            out.println("</form>");
             out.println("</body>");
             out.println("</html>");
         } catch (ClassNotFoundException ex) {

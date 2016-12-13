@@ -7,6 +7,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -34,7 +36,9 @@ public class QuizPage extends HttpServlet {
         {
             subj="c2";
             subject="C++";
-        }
+        }       
+        Integer arr[]={1,2,3,4,5};
+        Collections.shuffle(Arrays.asList(arr));
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             Class.forName("com.mysql.jdbc.Driver");              
@@ -48,8 +52,9 @@ public class QuizPage extends HttpServlet {
             out.println("<title>"+subject+"</title>");            
             out.println("</head>");
             out.println("<body>");
-            while(rsq.next())
+            for(int i=0;i<5;i++)
             {
+                rsq.absolute(arr[i]);
                 PreparedStatement pstmtqn=con.prepareStatement("select * from questmast where qid=?");
                 pstmtqn.setString(1,rsq.getString("qid"));
                 ResultSet rsqn=pstmtqn.executeQuery();

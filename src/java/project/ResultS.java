@@ -1,3 +1,8 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package project;
 
 import java.io.IOException;
@@ -7,8 +12,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -16,71 +20,52 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class QuizPage extends HttpServlet {
+public class ResultS extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        String subj = null;
-        String subject = null;
-        if(null != request.getParameter("j1"))
-        {
-            subj="j1";
-            subject="Java";
-        }
-        else if(null != request.getParameter("c1"))
-        { 
-            subj="c1";
-            subject="C";
-        }
-        else if(null != request.getParameter("c2"))
-        {
-            subj="c2";
-            subject="C++";
-        }       
-        Integer arr[]={1,2,3,4,5};
-        Collections.shuffle(Arrays.asList(arr));
+        List<String> anss;
+        anss = new ArrayList<>();
+        int score = 0;
+        int attempt = 5;
+        for(int i=0;i<5;i++)
+        {   
+            String chk=request.getParameter("q"+i);
+            if(chk!=null)
+                anss.add(chk);
+            else
+                attempt--;
+        }  
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             Class.forName("com.mysql.jdbc.Driver");              
-            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/quiz","root","");  
-            PreparedStatement pstmtq=con.prepareStatement("select * from submast where sid=?");
-            pstmtq.setString(1,subj);
-            ResultSet rsq=pstmtq.executeQuery();
+            Connection con = DriverManager.getConnection("jdbc:mysql://localhost/quiz","root","");
+            for(int i=0;i<anss.size();i++)
+            {
+                String[] query=anss.get(i).split("\\s");
+                PreparedStatement pstmta=con.prepareStatement("select * from ans where qid=? and opid=?");
+                pstmta.setString(1,query[0]);
+                pstmta.setString(2,query[1]);
+                ResultSet rsa=pstmta.executeQuery();
+                if(rsa.next())
+                {
+                    score++;
+                }
+            }
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>"+subject+"</title>");            
+            out.println("<title>Servlet ResultS</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<form method=\"post\" action=\"./ResultS\">");
-            for(int i=0;i<5;i++)
-            {
-                rsq.absolute(arr[i]);
-                PreparedStatement pstmtqn=con.prepareStatement("select * from questmast where qid=?");
-                pstmtqn.setString(1,rsq.getString("qid"));
-                ResultSet rsqn=pstmtqn.executeQuery();
-                while(rsqn.next())
-                {
-                    out.println("Q"+(i+1)+") "+rsqn.getString("question")+"<br>");
-                    PreparedStatement pstmtopt=con.prepareStatement("select * from optmast where qid=?");
-                    pstmtopt.setString(1,rsq.getString("qid"));
-                    ResultSet rsopt=pstmtopt.executeQuery();
-                    while(rsopt.next())
-                    {                       
-                        out.println("<input type=\"radio\" name=\"q"+i+"\" value=\""+rsq.getString("qid")+" "+rsopt.getString("opid")+"\">");
-                        out.println(rsopt.getString("options")+"<br>");
-                    }
-                }
-            }
-            out.println("<input type=\"submit\" value=\"Submit\">");
-            out.println("<input type=\"reset\" value=\"Reset\">");
-            out.println("</form>");
+            out.println("Score :"+score+"<br>");
+            out.println("Attempted :"+attempt);
             out.println("</body>");
             out.println("</html>");
         } catch (ClassNotFoundException ex) {
-            Logger.getLogger(QuizPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ResultS.class.getName()).log(Level.SEVERE, null, ex);
         } catch (SQLException ex) {
-            Logger.getLogger(QuizPage.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(ResultS.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 

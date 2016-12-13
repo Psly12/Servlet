@@ -88,6 +88,10 @@
         <servlet-name>Register</servlet-name>
         <servlet-class>project.Register</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>QuizPage</servlet-name>
+        <servlet-class>project.QuizPage</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Color</servlet-name>
         <url-pattern>/Color</url-pattern>
@@ -171,6 +175,10 @@
     <servlet-mapping>
         <servlet-name>Register</servlet-name>
         <url-pattern>/Register</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>QuizPage</servlet-name>
+        <url-pattern>/QuizPage</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

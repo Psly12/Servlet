@@ -37,7 +37,7 @@ public class QuizPage extends HttpServlet {
             subj="c2";
             subject="C++";
         }       
-        Integer arr[]={1,2,3,4,5};
+        Integer arr[]={1,2,3,4,5,6,7,8,9,10};
         Collections.shuffle(Arrays.asList(arr));
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
@@ -49,32 +49,52 @@ public class QuizPage extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
-            out.println("<title>"+subject+"</title>");            
+            out.println("<title>"+subject+"</title>\n" +
+                        "<meta charset=\"UTF-8\">\n" +
+                        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
+                        "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/bootstrap.css\">\n" +
+                        "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/bootstrap.min.css\">\n" +
+                        "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/main.css\">\n");        
             out.println("</head>");
             out.println("<body>");
-            out.println("<form method=\"post\" action=\"./ResultS\">");
+            out.println("<div class=\"container\">");
+            out.println("<div class=\"panel-heading\">\n" +
+                            "<div class=\"panel-title text-center\">\n" +
+                                "<h1>"+subject+" Quiz</h1>\n" +
+                                "<hr />\n" +
+                            "</div>\n" +
+                        "</div> ");
+            out.println("<div class=\"main-login main-quiz\" style=\"padding:40px 40px\">");
+            out.println("<form method=\"post\" action=\"./ResultS\" class=\"form-horizontal\">");
             for(int i=0;i<5;i++)
             {
+                out.println("<div>");
+                int j=0;
                 rsq.absolute(arr[i]);
                 PreparedStatement pstmtqn=con.prepareStatement("select * from questmast where qid=?");
                 pstmtqn.setString(1,rsq.getString("qid"));
                 ResultSet rsqn=pstmtqn.executeQuery();
                 while(rsqn.next())
                 {
-                    out.println("Q"+(i+1)+") "+rsqn.getString("question")+"<br>");
+                    out.println("<h5 style=\"font-weight:bold\">Q"+(i+1)+") "+rsqn.getString("question")+"</h5><br>");
                     PreparedStatement pstmtopt=con.prepareStatement("select * from optmast where qid=?");
                     pstmtopt.setString(1,rsq.getString("qid"));
                     ResultSet rsopt=pstmtopt.executeQuery();
                     while(rsopt.next())
                     {                       
-                        out.println("<input type=\"radio\" name=\"q"+i+"\" value=\""+rsq.getString("qid")+" "+rsopt.getString("opid")+"\">");
-                        out.println(rsopt.getString("options")+"<br>");
+                        out.println("<div class=\"\"><input type=\"radio\" id=\"q"+(j+(i*10))+"\" name=\"q"+i+"\" value=\""+rsq.getString("qid")+" "+rsopt.getString("opid")+"\">");
+                        out.println("<label for=\"q"+(j+(i*10))+"\" style=\"font-weight: normal\">"+rsopt.getString("options")+"</label></div><br>");
+                        j++;
                     }
                 }
+                out.println("<hr style=\"border: 1px solid #000\"/>​</div>");
             }
-            out.println("<input type=\"submit\" value=\"Submit\">");
-            out.println("<input type=\"reset\" value=\"Reset\">");
+            out.println("<center><input type=\"submit\" value=\"Submit\" class=\"btn btn-primary btn-lg\" style=\"width:45%\">");
+            out.println("<input type=\"reset\" value=\"Reset\" class=\"btn btn-primary btn-lg\" style=\"width:45%\"></center>");
             out.println("</form>");
+            out.println("</div>");
+            out.println("</div>");
+            out.println("<script type=\"text/javascript\" src=\"bootstrap/js/bootstrap.js\"></script>");
             out.println("</body>");
             out.println("</html>");
         } catch (ClassNotFoundException ex) {

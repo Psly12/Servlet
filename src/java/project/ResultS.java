@@ -19,6 +19,7 @@ public class ResultS extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        String scode=request.getParameter("sub");
         String QnAns[][];
         QnAns=new String[5][2];
         int score = 0;
@@ -79,10 +80,10 @@ public class ResultS extends HttpServlet {
                         "</tbody>\n" +
                         "</table>");
             out.println("<div class = \"panel-group \" id = \"accordion\">\n" +
-                            "<div class = \"panel panel-info\">\n" +
+                            "<div class = \"panel panel-info \">\n" +
                                 "<div class = \"panel-heading\">\n" +
                                 "<h4 class = \"panel-title\">");
-            out.println("<a data-toggle = \"collapse\" data-parent = \"#accordion\" href = \"#collapseOne\">\n" +
+            out.println("<a data-toggle = \"collapse\" data-parent = \"#accordion\" href = \"#collapseOne\" class=\"text-center btn btn-block\">\n" +
                         "Show Details</a></h4>\n" +
                         "</div>");
             out.println("<div id = \"collapseOne\" class = \"panel-collapse collapse\">\n" +
@@ -148,12 +149,24 @@ public class ResultS extends HttpServlet {
                 out.println("</div>");
             }
             out.println("</div></div></div></div>");//detail end
-            out.println("<button type=\"button\" class=\"btn btn-primary btn-lg btn-block\" data-toggle=\"modal\" data-target=\".bd-example-modal-sm\">Retake Test</button>"+
-                        "<div class=\"modal fade bd-example-modal-sm\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"mySmallModalLabel\" aria-hidden=\"true\">\n" +
-                        "<div class=\"modal-dialog modal-sm\">\n" +
+            out.println("<button class=\"btn btn-primary btn-lg btn-block\" data-toggle=\"modal\" data-target=\"#myModal\">Retake Quiz</button>"+
+                        "<div class=\"modal fade\" id=\"myModal\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"myModalLabel\" aria-hidden=\"true\">\n" +
+                        "<div class=\"vertical-alignment-helper\">\n" +
+                        "<div class=\"modal-dialog vertical-align-center\">\n" +
                         "<div class=\"modal-content\">\n" +
-                        "<a href=\"../Servlet/QuizPage\"><input type=\"submit\" class=\"btn btn-primary btn-lg btn-block\" value=\"Same Subject\"></a>" +
-                        "<a href=\"../Servlet/Project_Web/QuizSelection.html\"><input type=\"submit\" class=\"btn btn-primary btn-lg btn-block\" value=\"Diffrent Subject\"></a>" +
+                        "<div class=\"modal-header\">\n" +
+                        "<button type=\"button\" class=\"close\" data-dismiss=\"modal\"><span aria-hidden=\"true\">&times;</span><span class=\"sr-only\">Close</span>\n" +
+                        "</button>\n" +
+                        "<h4 class=\"modal-title\" id=\"myModalLabel\">Retake Quiz</h4>\n" +
+                        "</div>\n" +
+                        "<div class=\"modal-body\">\n" +
+                        "<form method=\"post\" action=\"../Servlet/QuizPage\"><input type=\"submit\" class=\"btn btn-primary btn-lg btn-block\" name=\""+scode+"\" value=\"Same Subject\"></a>" +
+                        "<a href=\"../Servlet/Project_Web/QuizSelection.html\"><input type=\"submit\" class=\"btn btn-primary btn-lg btn-block\" value=\"Diffrent Subject\"></a>" +                        
+                        "</div>\n" +
+                        "<div class=\"modal-footer\">\n" +
+                        "<button type=\"button\" class=\"btn btn-default\" data-dismiss=\"modal\">Close</button>\n" +
+                        "</div>\n" +
+                        "</div>\n" +
                         "</div>\n" +
                         "</div>\n" +
                         "</div>");           

@@ -21,7 +21,7 @@ public class QuizPage extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         String subj = null;
-        String subject = null;
+        String subject = null;        
         if(null != request.getParameter("j1"))
         {
             subj="j1";
@@ -67,6 +67,7 @@ public class QuizPage extends HttpServlet {
                         "</div> ");
             out.println("<div class=\"main-login main-quiz\" style=\"padding:40px 40px\">");
             out.println("<form method=\"post\" action=\"./ResultS\" class=\"form-horizontal text-center\">");
+            out.println("<input type=\"hidden\" name=\"sub\" value=\""+subj+"\">");
             for(int i=0;i<5;i++)
             {
                 out.println("<div class=\"clearfix\">");

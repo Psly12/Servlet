@@ -43,18 +43,7 @@ public class ResultS extends HttpServlet {
                 if(QnAns[i][1].equals(""))
                 {
                     attempt--;
-                }
-                else
-                {
-                    PreparedStatement pstmta=con.prepareStatement("select * from ans where qid=? and opid=?");
-                    pstmta.setString(1,QnAns[i][0]);
-                    pstmta.setString(2,QnAns[i][1]);
-                    ResultSet rsa=pstmta.executeQuery();
-                    if(rsa.next())
-                    {
-                        score++;
-                    }
-                }
+                }                
             }
             out.println("<!DOCTYPE html>");
             out.println("<html>");
@@ -79,8 +68,7 @@ public class ResultS extends HttpServlet {
             out.println("<form method=\"post\" action=\"./ResultS\" class=\"form-horizontal text-center\">");
             for(int i=0;i<5;i++)
             {
-                out.println("<div class=\"clearfix\">");
-                int j=0;               
+                out.println("<div class=\"clearfix\">");              
                 PreparedStatement pstmtqn=con.prepareStatement("select * from questmast where qid=?");
                 pstmtqn.setString(1,QnAns[i][0]);
                 ResultSet rsqn=pstmtqn.executeQuery();
@@ -100,9 +88,39 @@ public class ResultS extends HttpServlet {
                             status="checked";
                         else
                             status="disabled";
-                        out.println("<label class=\"check\" for=\"q"+(j+(i*10))+"\" style=\"font-weight: normal\"><input type=\"radio\" id=\"q"+(j+(i*10))+"\" name=\"op"+i+"\" value=\""+rsopt.getString("opid")+"\" "+status+">");
-                        out.println("<span class=\"label-text\">"+rsopt.getString("options")+"</span></label><br>");                        
-                        j++;
+                        PreparedStatement pstmta=con.prepareStatement("select * from ans where qid=? and opid=?");
+                        if(QnAns[i][1].equals(rsopt.getString("opid")))
+                        {
+                            pstmta.setString(1,QnAns[i][0]);
+                            pstmta.setString(2,rsopt.getString("opid"));
+                            ResultSet rsa=pstmta.executeQuery();
+                            if(rsa.next())
+                            {
+                                out.println("<label class=\"check\" style=\"font-weight: normal\"><input type=\"radio\" name=\"op"+i+"\" value=\""+rsopt.getString("opid")+"\" "+status+">");
+                                out.println("<span class=\"label-text\" style=\"color:green\">"+rsopt.getString("options")+" - <b>Correct!<b></span></label><br>");
+                            }
+                            else
+                            {
+                                out.println("<label class=\"check\" style=\"font-weight: normal\"><input type=\"radio\" name=\"op"+i+"\" value=\""+rsopt.getString("opid")+"\" "+status+">");
+                                out.println("<span class=\"label-text\" style=\"color:red\">"+rsopt.getString("options")+" - <b>Incorrect!<b></span></label><br>");
+                            }
+                        }
+                        else
+                        {
+                            pstmta.setString(1,QnAns[i][0]);
+                            pstmta.setString(2,rsopt.getString("opid"));
+                            ResultSet rsa=pstmta.executeQuery();
+                            if(rsa.next())
+                            {
+                                out.println("<label class=\"check\" style=\"font-weight: normal\"><input type=\"radio\" name=\"op"+i+"\" value=\""+rsopt.getString("opid")+"\" "+status+">");
+                                out.println("<span class=\"label-text\" style=\"color:blue\">"+rsopt.getString("options")+" - <b>Correct Option!<b></span></label><br>");
+                            }
+                            else
+                            {
+                                out.println("<label class=\"check\" style=\"font-weight: normal\"><input type=\"radio\" name=\"op"+i+"\" value=\""+rsopt.getString("opid")+"\" "+status+">");
+                                out.println("<span class=\"label-text\">"+rsopt.getString("options")+"</span></label><br>");
+                            }
+                        }
                     }
                     out.println("</div></div>");
                 }

@@ -8,7 +8,6 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.ServletException;
@@ -65,15 +64,57 @@ public class ResultS extends HttpServlet {
                         "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/bootstrap.css\">\n" +
                         "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/bootstrap.min.css\">\n" +
                         "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/main.css\">\n");
-            out.println("<title>Servlet ResultS</title>");            
+            out.println("<title>Result</title>");            
             out.println("</head>");
             out.println("<body>");
             out.println("<a href=\"../Servlet/LoginCaptcha\"><button class='btn btn-primary pull-right col-lg-1'>Logout</button></a>");
             out.println("<div class=\"container\">");
-            out.println("Score :"+score+"<br>");
-            out.println("Attempted :"+attempt);
+            out.println("<div class=\"panel-heading\">\n" +
+                            "<div class=\"panel-title text-center\">\n" +
+                                "<h1>Results</h1>\n" +
+                                "<hr />\n" +
+                            "</div>\n" +
+                        "</div> ");
+            out.println("<div class=\"main-login main-quiz\" style=\"padding:40px 40px\">");
+            out.println("<form method=\"post\" action=\"./ResultS\" class=\"form-horizontal text-center\">");
+            for(int i=0;i<5;i++)
+            {
+                out.println("<div class=\"clearfix\">");
+                int j=0;               
+                PreparedStatement pstmtqn=con.prepareStatement("select * from questmast where qid=?");
+                pstmtqn.setString(1,QnAns[i][0]);
+                ResultSet rsqn=pstmtqn.executeQuery();
+                while(rsqn.next())
+                {
+                    out.println("<div class = \"panel panel-primary\">\n" +
+                                "<div class = \"panel-heading\">");
+                    out.println("<h3 class = \"panel-title\">Q"+(i+1)+") "+rsqn.getString("question")+"</h3></div>");
+                    out.println("<div class = \"panel-body\" style=\"text-align:left\">");
+                    PreparedStatement pstmtopt=con.prepareStatement("select * from optmast where qid=?");
+                    pstmtopt.setString(1,QnAns[i][0]);
+                    ResultSet rsopt=pstmtopt.executeQuery();                   
+                    while(rsopt.next())
+                    {   
+                        String status;
+                        if(QnAns[i][1].equals(rsopt.getString("opid")))
+                            status="checked";
+                        else
+                            status="disabled";
+                        out.println("<label class=\"check\" for=\"q"+(j+(i*10))+"\" style=\"font-weight: normal\"><input type=\"radio\" id=\"q"+(j+(i*10))+"\" name=\"op"+i+"\" value=\""+rsopt.getString("opid")+"\" "+status+">");
+                        out.println("<span class=\"label-text\">"+rsopt.getString("options")+"</span></label><br>");                        
+                        j++;
+                    }
+                    out.println("</div></div>");
+                }
+                out.println("</div>");
+            }
+            out.println("<center><input type=\"submit\" value=\"Submit\" class=\"btn btn-primary btn-lg\" style=\"width:45%\">");
+            out.println("<input type=\"reset\" value=\"Reset\" class=\"btn btn-primary btn-lg\" style=\"width:45%\"></center>");
+            out.println("</form>");
+            out.println("</div>");
             out.println("</div>");
             out.println("<script type=\"text/javascript\" src=\"bootstrap/js/bootstrap.js\"></script>");
+            con.close();
             out.println("</body>");
             out.println("</html>");
         } catch (ClassNotFoundException | SQLException ex) {

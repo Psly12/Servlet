@@ -102,6 +102,7 @@ public class QuizPage extends HttpServlet {
             out.println("</div>");
             out.println("</div>");
             out.println("<script type=\"text/javascript\" src=\"bootstrap/js/bootstrap.js\"></script>");
+            con.close();
             out.println("</body>");
             out.println("</html>");
         } catch (ClassNotFoundException ex) {

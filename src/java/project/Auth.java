@@ -59,6 +59,7 @@ public class Auth extends HttpServlet {
                 RequestDispatcher requestdispatcher=request.getRequestDispatcher("LoginCaptcha");
                 requestdispatcher.include(request,response);
             }
+            con.close();
             out.println("</body>");
             out.println("</html>");
         } catch (ClassNotFoundException ex) {

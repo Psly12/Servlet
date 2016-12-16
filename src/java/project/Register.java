@@ -56,7 +56,7 @@ public class Register extends HttpServlet {
                RequestDispatcher requestdispatcher=request.getRequestDispatcher("LoginCaptcha");
                requestdispatcher.include(request,response);
             }
-            stmt.close();
+            con.close();
             }
         } catch (SQLException | ClassNotFoundException ex) {
             Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);

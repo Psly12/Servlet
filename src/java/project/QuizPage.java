@@ -57,6 +57,7 @@ public class QuizPage extends HttpServlet {
                         "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/main.css\">\n");        
             out.println("</head>");
             out.println("<body>");
+            out.println("<a href=\"../Servlet/LoginCaptcha\"><button class='btn btn-primary pull-right col-lg-1'>Logout</button></a>");
             out.println("<div class=\"container\">");
             out.println("<div class=\"panel-heading\">\n" +
                             "<div class=\"panel-title text-center\">\n" +
@@ -65,10 +66,10 @@ public class QuizPage extends HttpServlet {
                             "</div>\n" +
                         "</div> ");
             out.println("<div class=\"main-login main-quiz\" style=\"padding:40px 40px\">");
-            out.println("<form method=\"post\" action=\"./ResultS\" class=\"form-horizontal\">");
+            out.println("<form method=\"post\" action=\"./ResultS\" class=\"form-horizontal text-center\">");
             for(int i=0;i<5;i++)
             {
-                out.println("<div>");
+                out.println("<div class=\"clearfix\">");
                 int j=0;
                 rsq.absolute(arr[i]);
                 PreparedStatement pstmtqn=con.prepareStatement("select * from questmast where qid=?");
@@ -76,18 +77,22 @@ public class QuizPage extends HttpServlet {
                 ResultSet rsqn=pstmtqn.executeQuery();
                 while(rsqn.next())
                 {
-                    out.println("<h5 style=\"font-weight:bold\">Q"+(i+1)+") "+rsqn.getString("question")+"</h5><br>");
+                    out.println("<div class = \"panel panel-primary\">\n" +
+                                "<div class = \"panel-heading\">");
+                    out.println("<h3 class = \"panel-title\">Q"+(i+1)+") "+rsqn.getString("question")+"</h3></div>");
+                    out.println("<div class = \"panel-body\" style=\"text-align:left\">");
                     PreparedStatement pstmtopt=con.prepareStatement("select * from optmast where qid=?");
                     pstmtopt.setString(1,rsq.getString("qid"));
                     ResultSet rsopt=pstmtopt.executeQuery();
                     while(rsopt.next())
                     {                       
-                        out.println("<div class=\"\"><input type=\"radio\" id=\"q"+(j+(i*10))+"\" name=\"q"+i+"\" value=\""+rsq.getString("qid")+" "+rsopt.getString("opid")+"\">");
-                        out.println("<label for=\"q"+(j+(i*10))+"\" style=\"font-weight: normal\">"+rsopt.getString("options")+"</label></div><br>");
+                        out.println("<label class=\"check\" for=\"q"+(j+(i*10))+"\" style=\"font-weight: normal\"><input type=\"radio\" id=\"q"+(j+(i*10))+"\" name=\"q"+i+"\" value=\""+rsq.getString("qid")+" "+rsopt.getString("opid")+"\">");
+                        out.println("<span class=\"label-text\">"+rsopt.getString("options")+"</span></label><br>");                        
                         j++;
                     }
+                    out.println("</div></div>");
                 }
-                out.println("<hr style=\"border: 1px solid #000\"/>​</div>");
+                out.println("</div>");
             }
             out.println("<center><input type=\"submit\" value=\"Submit\" class=\"btn btn-primary btn-lg\" style=\"width:45%\">");
             out.println("<input type=\"reset\" value=\"Reset\" class=\"btn btn-primary btn-lg\" style=\"width:45%\"></center>");

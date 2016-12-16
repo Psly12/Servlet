@@ -1,8 +1,4 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package project;
 
 import java.io.IOException;
@@ -55,11 +51,20 @@ public class ResultS extends HttpServlet {
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
+            out.println("<meta charset=\"UTF-8\">\n" +
+                        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
+                        "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/bootstrap.css\">\n" +
+                        "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/bootstrap.min.css\">\n" +
+                        "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/main.css\">\n");
             out.println("<title>Servlet ResultS</title>");            
             out.println("</head>");
             out.println("<body>");
+            out.println("<a href=\"../Servlet/LoginCaptcha\"><button class='btn btn-primary pull-right col-lg-1'>Logout</button></a>");
+            out.println("<div class=\"container\">");
             out.println("Score :"+score+"<br>");
             out.println("Attempted :"+attempt);
+            out.println("</div>");
+            out.println("<script type=\"text/javascript\" src=\"bootstrap/js/bootstrap.js\"></script>");
             out.println("</body>");
             out.println("</html>");
         } catch (ClassNotFoundException ex) {

@@ -20,32 +20,41 @@ public class ResultS extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        List<String> anss;
-        anss = new ArrayList<>();
+        String QnAns[][];
+        QnAns=new String[5][2];
         int score = 0;
         int attempt = 5;
         for(int i=0;i<5;i++)
         {   
-            String chk=request.getParameter("q"+i);
-            if(chk!=null)
-                anss.add(chk);
+            String qn=request.getParameter("qn"+i);
+            String opn=request.getParameter("op"+i);
+            QnAns[i][0]=qn;
+            QnAns[i][1]=opn;
+            if(opn!=null)
+                QnAns[i][1]=opn;
             else
-                attempt--;
-        }  
+                QnAns[i][1]="";
+        }
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             Class.forName("com.mysql.jdbc.Driver");              
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost/quiz","root","");
-            for(int i=0;i<anss.size();i++)
+            for(int i=0;i<5;i++)
             {
-                String[] query=anss.get(i).split("\\s");
-                PreparedStatement pstmta=con.prepareStatement("select * from ans where qid=? and opid=?");
-                pstmta.setString(1,query[0]);
-                pstmta.setString(2,query[1]);
-                ResultSet rsa=pstmta.executeQuery();
-                if(rsa.next())
+                if(QnAns[i][1].equals(""))
                 {
-                    score++;
+                    attempt--;
+                }
+                else
+                {
+                    PreparedStatement pstmta=con.prepareStatement("select * from ans where qid=? and opid=?");
+                    pstmta.setString(1,QnAns[i][0]);
+                    pstmta.setString(2,QnAns[i][1]);
+                    ResultSet rsa=pstmta.executeQuery();
+                    if(rsa.next())
+                    {
+                        score++;
+                    }
                 }
             }
             out.println("<!DOCTYPE html>");
@@ -67,9 +76,7 @@ public class ResultS extends HttpServlet {
             out.println("<script type=\"text/javascript\" src=\"bootstrap/js/bootstrap.js\"></script>");
             out.println("</body>");
             out.println("</html>");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(ResultS.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(ResultS.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

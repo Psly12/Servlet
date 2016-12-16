@@ -84,9 +84,11 @@ public class QuizPage extends HttpServlet {
                     PreparedStatement pstmtopt=con.prepareStatement("select * from optmast where qid=?");
                     pstmtopt.setString(1,rsq.getString("qid"));
                     ResultSet rsopt=pstmtopt.executeQuery();
+
+                    out.println("<input type=\"hidden\" name=\"qn"+i+"\" value=\""+rsq.getString("qid")+"\">");
                     while(rsopt.next())
                     {                       
-                        out.println("<label class=\"check\" for=\"q"+(j+(i*10))+"\" style=\"font-weight: normal\"><input type=\"radio\" id=\"q"+(j+(i*10))+"\" name=\"q"+i+"\" value=\""+rsq.getString("qid")+" "+rsopt.getString("opid")+"\">");
+                        out.println("<label class=\"check\" for=\"q"+(j+(i*10))+"\" style=\"font-weight: normal\"><input type=\"radio\" id=\"q"+(j+(i*10))+"\" name=\"op"+i+"\" value=\""+rsopt.getString("opid")+"\">");
                         out.println("<span class=\"label-text\">"+rsopt.getString("options")+"</span></label><br>");                        
                         j++;
                     }

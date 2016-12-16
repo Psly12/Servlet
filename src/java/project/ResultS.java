@@ -51,8 +51,7 @@ public class ResultS extends HttpServlet {
             out.println("<meta charset=\"UTF-8\">\n" +
                         "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
                         "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/bootstrap.css\">\n" +
-                        "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/bootstrap.min.css\">\n" +
-                        "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/main.css\">\n");
+                        "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/main.css\">");                        
             out.println("<title>Result</title>");            
             out.println("</head>");
             out.println("<body>");
@@ -65,7 +64,29 @@ public class ResultS extends HttpServlet {
                             "</div>\n" +
                         "</div> ");
             out.println("<div class=\"main-login main-quiz\" style=\"padding:40px 40px\">");
-            out.println("<form method=\"post\" action=\"./ResultS\" class=\"form-horizontal text-center\">");
+            out.println("<table class=\"table table-striped\">\n" +
+                        "<thead>\n" +
+                        "<tr>\n" +
+                        "<td>Score</td>\n" +
+                        "<td>Attempted</td>\n" +
+                        "</tr>\n" +
+                        "</thead>\n" +
+                        "<tbody>\n" +
+                        "<tr>\n" +
+                        "<td>"+score+"</td>\n" +
+                        "<td>"+attempt+"/5</td>\n" +
+                        "</tr>\n" +
+                        "</tbody>\n" +
+                        "</table>");
+            out.println("<div class = \"panel-group \" id = \"accordion\">\n" +
+                            "<div class = \"panel panel-info\">\n" +
+                                "<div class = \"panel-heading\">\n" +
+                                "<h4 class = \"panel-title\">");
+            out.println("<a data-toggle = \"collapse\" data-parent = \"#accordion\" href = \"#collapseOne\">\n" +
+                        "Show Details</a></h4>\n" +
+                        "</div>");
+            out.println("<div id = \"collapseOne\" class = \"panel-collapse collapse\">\n" +
+                            " <div class = \"panel-body\">");
             for(int i=0;i<5;i++)
             {
                 out.println("<div class=\"clearfix\">");              
@@ -126,13 +147,21 @@ public class ResultS extends HttpServlet {
                 }
                 out.println("</div>");
             }
-            out.println("<center><input type=\"submit\" value=\"Submit\" class=\"btn btn-primary btn-lg\" style=\"width:45%\">");
-            out.println("<input type=\"reset\" value=\"Reset\" class=\"btn btn-primary btn-lg\" style=\"width:45%\"></center>");
-            out.println("</form>");
+            out.println("</div></div></div></div>");//detail end
+            out.println("<button type=\"button\" class=\"btn btn-primary btn-lg btn-block\" data-toggle=\"modal\" data-target=\".bd-example-modal-sm\">Retake Test</button>"+
+                        "<div class=\"modal fade bd-example-modal-sm\" tabindex=\"-1\" role=\"dialog\" aria-labelledby=\"mySmallModalLabel\" aria-hidden=\"true\">\n" +
+                        "<div class=\"modal-dialog modal-sm\">\n" +
+                        "<div class=\"modal-content\">\n" +
+                        "<a href=\"../Servlet/QuizPage\"><input type=\"submit\" class=\"btn btn-primary btn-lg btn-block\" value=\"Same Subject\"></a>" +
+                        "<a href=\"../Servlet/Project_Web/QuizSelection.html\"><input type=\"submit\" class=\"btn btn-primary btn-lg btn-block\" value=\"Diffrent Subject\"></a>" +
+                        "</div>\n" +
+                        "</div>\n" +
+                        "</div>");           
             out.println("</div>");
             out.println("</div>");
-            out.println("<script type=\"text/javascript\" src=\"bootstrap/js/bootstrap.js\"></script>");
-            con.close();
+            con.close(); 
+            out.println("<script src=\"./Project_Web/bootstrap/js/jquery.js\"></script>");
+            out.println("<script type=\"text/javascript\" src=\"./Project_Web/bootstrap/js/bootstrap.js\"></script>");
             out.println("</body>");
             out.println("</html>");
         } catch (ClassNotFoundException | SQLException ex) {

@@ -96,6 +96,14 @@
         <servlet-name>ResultS</servlet-name>
         <servlet-class>project.ResultS</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>Logout</servlet-name>
+        <servlet-class>project.Logout</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>QuizSelection</servlet-name>
+        <servlet-class>project.QuizSelection</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Color</servlet-name>
         <url-pattern>/Color</url-pattern>
@@ -187,6 +195,14 @@
     <servlet-mapping>
         <servlet-name>ResultS</servlet-name>
         <url-pattern>/ResultS</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>Logout</servlet-name>
+        <url-pattern>/Logout</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>QuizSelection</servlet-name>
+        <url-pattern>/QuizSelection</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

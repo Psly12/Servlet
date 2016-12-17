@@ -51,7 +51,9 @@ public class Auth extends HttpServlet {
             }
             else if(rs.next())
             {
-                response.sendRedirect("./Project_Web/QuizSelection.html");
+                HttpSession se=request.getSession(true);  
+                se.setAttribute("uname",uname);  
+                response.sendRedirect("../Servlet/QuizSelection");
             }
             else
             {

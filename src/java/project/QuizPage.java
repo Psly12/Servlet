@@ -11,10 +11,12 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 public class QuizPage extends HttpServlet {
 
@@ -41,6 +43,13 @@ public class QuizPage extends HttpServlet {
         Collections.shuffle(Arrays.asList(arr));
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
+            HttpSession se=request.getSession(false);
+            if(se==null || !request.isRequestedSessionIdValid() )
+            {   
+                out.println("<div class=\"alert alert-warning\">Invalid Session. Please Login First</div>");
+                RequestDispatcher requestdispatcher=request.getRequestDispatcher("LoginCaptcha");
+                requestdispatcher.include(request,response);
+            }
             Class.forName("com.mysql.jdbc.Driver");              
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost/quiz","root","");  
             PreparedStatement pstmtq=con.prepareStatement("select * from submast where sid=?");
@@ -57,7 +66,7 @@ public class QuizPage extends HttpServlet {
                         "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/main.css\">\n");        
             out.println("</head>");
             out.println("<body>");
-            out.println("<a href=\"../Servlet/LoginCaptcha\"><button class='btn btn-primary pull-right col-lg-1'>Logout</button></a>");
+            out.println("<a href=\"../Servlet/Logout\"><button class='btn btn-primary pull-right col-lg-1'>Logout</button></a>");
             out.println("<div class=\"container\">");
             out.println("<div class=\"panel-heading\">\n" +
                             "<div class=\"panel-title text-center\">\n" +

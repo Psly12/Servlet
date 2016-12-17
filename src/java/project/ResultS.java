@@ -95,13 +95,13 @@ public class ResultS extends HttpServlet {
                         "</tbody>\n" +
                         "</table>");
             out.println("<div class = \"panel-group \" id = \"accordion\">\n" +
-                            "<div class = \"panel panel-info \">\n" +
+                            "<div class = \"panel panel-primary \">\n" +
                                 "<div class = \"panel-heading\">\n" +
                                 "<h4 class = \"panel-title\">");
-            out.println("<a data-toggle = \"collapse\" data-parent = \"#accordion\" href = \"#collapseOne\" class=\"text-center btn btn-block\">\n" +
-                        "Show Details</a></h4>\n" +
+            out.println("<button data-toggle = \"collapse\" data-parent = \"#accordion\" href = \"#collapseOne\" class=\"text-center btn btn-primary btn-block\" id=\"more\">\n" +
+                        "<span class=\"glyphicon glyphicon-chevron-down\"></span>Show Details</button></h4>\n" +
                         "</div>");
-            out.println("<div id = \"collapseOne\" class = \"panel-collapse collapse\">\n" +
+            out.println("<div id = \"collapseOne\" class = \"panel-collapse collapse\" id=\"details\">\n" +
                             " <div class = \"panel-body\">");
             for(int i=0;i<5;i++)
             {
@@ -187,7 +187,8 @@ public class ResultS extends HttpServlet {
                         "</div>");           
             out.println("</div>");
             out.println("</div>");
-            con.close(); 
+            con.close();
+            out.println("<script src=\"./Project_Web/bootstrap/js/collapsebtn.js\"></script>");
             out.println("<script src=\"./Project_Web/bootstrap/js/jquery.js\"></script>");
             out.println("<script type=\"text/javascript\" src=\"./Project_Web/bootstrap/js/bootstrap.js\"></script>");
             out.println("</body>");

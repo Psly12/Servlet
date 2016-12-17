@@ -53,7 +53,13 @@ public class ResultS extends HttpServlet {
                 if(QnAns[i][1].equals(""))
                 {
                     attempt--;
-                }                
+                }
+                PreparedStatement pstmtoc=con.prepareStatement("select * from ans where qid=? and opid=?");
+                pstmtoc.setString(1,QnAns[i][0]);
+                pstmtoc.setString(2,QnAns[i][1]);
+                ResultSet rsoc=pstmtoc.executeQuery();
+                if(rsoc.next())
+                    score++;
             }
             out.println("<!DOCTYPE html>");
             out.println("<html>");

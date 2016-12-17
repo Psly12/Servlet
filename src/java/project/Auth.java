@@ -18,7 +18,7 @@ public class Auth extends HttpServlet {
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(false);
             String cap1,uname,pass,ans;
             uname=(String) request.getParameter("user");
             pass=(String) request.getParameter("pass");
@@ -36,6 +36,7 @@ public class Auth extends HttpServlet {
             out.println("<title>Servlet Auth</title>");            
             out.println("</head>");
             out.println("<body>");
+            session.invalidate();
             if(!ans.equals(cap1))
             {
                out.println("<div class=\"alert alert-warning\">Please Enter correct Captcha</div>");

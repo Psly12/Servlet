@@ -12,7 +12,7 @@ public class LoginCaptcha extends HttpServlet {
     throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
-            HttpSession session = request.getSession();
+            HttpSession session = request.getSession(true);
             int x = 1 + (int)(Math.random() * ((10 - 1) + 1));
             int y = 1 + (int)(Math.random() * ((10 - 1) + 1));
             int opr = 1 + (int)(Math.random() * ((3 - 1) + 1));
@@ -56,7 +56,7 @@ public class LoginCaptcha extends HttpServlet {
                                 "<h1>Login Quiz</h1>\n" +
                                 "<hr />\n" +
                             "</div>\n" +
-                        "</div> " +
+                        "</div>" +
                         "<div class=\"modal-dialog\">\n" +
                         "<div class=\"loginmodal-container\">\n" +
                             "<h2>Login</h2>\n" +

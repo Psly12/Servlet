@@ -56,7 +56,8 @@ input::-webkit-input-placeholder {
 .main-quiz{
  	margin-top: 30px;
  	margin: 0 auto;
- 	max-width: 60%;
+ 	max-width: 85%;
+        min-width:660px;
         padding: 40px 40px;
 }
 .login-button{
@@ -163,7 +164,7 @@ input::-webkit-input-placeholder {
 
 label {
     display: inline-block;
-    width: 70%;
+    width: 100%;
     padding: 5px;
 }
 label:hover {

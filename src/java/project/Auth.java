@@ -24,6 +24,7 @@ public class Auth extends HttpServlet {
             pass=(String) request.getParameter("pass");
             cap1 = (String) request.getParameter("cap");
             ans = (String) session.getAttribute("ans1");
+            session.invalidate();
             Class.forName("com.mysql.jdbc.Driver");              
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost/quiz","root","");  
             PreparedStatement pstmt=con.prepareStatement("select username,password from user1 where username=? and password=?");
@@ -36,7 +37,6 @@ public class Auth extends HttpServlet {
             out.println("<title>Servlet Auth</title>");            
             out.println("</head>");
             out.println("<body>");
-            session.invalidate();
             if(!ans.equals(cap1))
             {
                out.println("<div class=\"alert alert-warning\">Please Enter correct Captcha</div>");
@@ -51,8 +51,8 @@ public class Auth extends HttpServlet {
                 requestdispatcher.include(request,response);
             }
             else if(rs.next())
-            {
-                HttpSession se=request.getSession(true);  
+            { 
+                HttpSession se = request.getSession(true);
                 se.setAttribute("uname",uname);  
                 response.sendRedirect("../Servlet/QuizSelection");
             }
@@ -65,9 +65,7 @@ public class Auth extends HttpServlet {
             con.close();
             out.println("</body>");
             out.println("</html>");
-        } catch (ClassNotFoundException ex) {
-            Logger.getLogger(Auth.class.getName()).log(Level.SEVERE, null, ex);
-        } catch (SQLException ex) {
+        } catch (ClassNotFoundException | SQLException ex) {
             Logger.getLogger(Auth.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

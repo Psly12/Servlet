@@ -23,13 +23,13 @@ public class QuizSelection extends HttpServlet {
             HttpSession se=request.getSession(false);           
             if(se==null || !request.isRequestedSessionIdValid() )
             {   
-                out.println("<div class=\"alert alert-warning\">Invalid Session. Please Login First</div>");
+                out.println("<div class=\"alert alert-warning alert-dismissible\">Invalid Session. Please Login First</div>");
                 RequestDispatcher requestdispatcher=request.getRequestDispatcher("LoginCaptcha");
                 requestdispatcher.include(request,response);
             }
             else
             {  
-                out.println("<div class=\"alert alert-warning nopadding\">Welcome, "+(String)se.getAttribute("uname")+"</div>");
+                out.println("<div class=\"alert alert-warning alert-dismissible\">Welcome, "+(String)se.getAttribute("uname")+"</div>");
             }
             out.println("<!DOCTYPE html>\n" +
 "<html lang=\"en\">\n" +
@@ -62,7 +62,8 @@ public class QuizSelection extends HttpServlet {
 "		</form>\n" +
 "            </div>\n" +
 "            </div>\n" +
-"		<script type=\"text/javascript\" src=\"bootstrap/js/bootstrap.js\"></script>\n" +
+"           <script src=\"./Project_Web/bootstrap/js/jquery.js\"></script>\n" +
+"            <script type=\"text/javascript\" src=\"./Project_Web/bootstrap/js/bootstrap.js\"></script>\n" +
 "	</body>\n" +
 "</html>");
         }

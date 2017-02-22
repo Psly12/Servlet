@@ -73,8 +73,9 @@ public class LoginCaptcha extends HttpServlet {
                                     "<a href=\"../Servlet/Project_Web/Registration.html\">Register</a>\n" +
                         "</div>" +
                         "</div>\n" +
-                        "</div>\n" +
-                       "<script type=\"text/javascript\" src=\"bootstrap/js/bootstrap.js\"></script>"+
+                        "</div>\n");
+                      out.println("<script src=\"./Project_Web/bootstrap/js/jquery.js\"></script>");
+                       out.println("<script type=\"text/javascript\" src=\"./Project_Web/bootstrap/js/bootstrap.js\"></script>"+
                        "</body>\n" +
                 "</html>");
         }

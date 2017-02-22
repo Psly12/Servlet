@@ -46,7 +46,7 @@ public class QuizPage extends HttpServlet {
             HttpSession se=request.getSession(false);
             if(se==null || !request.isRequestedSessionIdValid() )
             {   
-                out.println("<div class=\"alert alert-warning\">Invalid Session. Please Login First</div>");
+                out.println("<div class=\"alert alert-warning alert-dismissible\">Invalid Session. Please Login First</div>");
                 RequestDispatcher requestdispatcher=request.getRequestDispatcher("LoginCaptcha");
                 requestdispatcher.include(request,response);
             }
@@ -57,13 +57,17 @@ public class QuizPage extends HttpServlet {
             ResultSet rsq=pstmtq.executeQuery();
             out.println("<!DOCTYPE html>");
             out.println("<html>");
-            out.println("<head>");
+            out.println("<head>");            
             out.println("<title>"+subject+"</title>\n" +
                         "<meta charset=\"UTF-8\">\n" +
                         "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n" +
                         "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/bootstrap.css\">\n" +
                         "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/bootstrap.min.css\">\n" +
                         "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/main.css\">\n");        
+            out.println("<style>\n" +
+".content {display: none}\n" +
+".content.active {display: block;}" +
+"\n</style>");
             out.println("</head>");
             out.println("<body>");
             out.println("<a href=\"../Servlet/Logout\"><button class='btn btn-primary pull-right col-lg-1'>Logout</button></a>");
@@ -79,7 +83,14 @@ public class QuizPage extends HttpServlet {
             out.println("<input type=\"hidden\" name=\"sub\" value=\""+subj+"\">");
             for(int i=0;i<5;i++)
             {
-                out.println("<div class=\"clearfix\">");
+                if(i==0)
+                {
+                out.println("<div class=\"content active\" id=\"qpa"+i+"\">");
+                }
+                else
+                {
+                out.println("<div class=\"content\" id=\"qpa"+i+"\">");
+                }
                 int j=0;
                 rsq.absolute(arr[i]);
                 PreparedStatement pstmtqn=con.prepareStatement("select * from questmast where qid=?");
@@ -106,12 +117,29 @@ public class QuizPage extends HttpServlet {
                 }
                 out.println("</div>");
             }
+            //pagination links
+            out.println("<ul class=\"pagination\">\n" +
+"  <li><a href=\"#\" rel=\"qpa0\" class=\"pager active\">1</a></li>\n" +
+"  <li><a href=\"#\" rel=\"qpa1\" class=\"pager\">2</a></li>\n" +
+"  <li><a href=\"#\" rel=\"qpa2\" class=\"pager\">3</a></li>\n" +
+"  <li><a href=\"#\" rel=\"qpa3\" class=\"pager\">4</a></li>\n" +
+"  <li><a href=\"#\" rel=\"qpa4\" class=\"pager\">5</a></li>\n" +
+"</ul>");
             out.println("<center><input type=\"submit\" value=\"Submit\" class=\"btn btn-primary btn-lg\" style=\"width:45%\">");
             out.println("<input type=\"reset\" value=\"Reset\" class=\"btn btn-primary btn-lg\" style=\"width:45%\"></center>");
             out.println("</form>");
             out.println("</div>");
-            out.println("</div>");
-            out.println("<script type=\"text/javascript\" src=\"bootstrap/js/bootstrap.js\"></script>");
+            out.println("</div><script type=\"text/javascript\" src=\"//code.jquery.com/jquery-1.11.0.js\"></script>");
+            out.println("<script>$('.pager').click(function() {\n" +
+"    $('.active').removeClass('active');\n" +
+"    \n" +
+"    $(this).addClass('active');\n" +
+"    $('#' + $(this).attr('rel')).addClass('active');\n" +
+"    \n" +
+"    return false;\n" +
+"});</script>");
+            out.println("<script src=\"./Project_Web/bootstrap/js/jquery.js\"></script>");
+            out.println("<script type=\"text/javascript\" src=\"./Project_Web/bootstrap/js/bootstrap.js\"></script>");
             con.close();
             out.println("</body>");
             out.println("</html>");

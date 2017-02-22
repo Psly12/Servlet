@@ -26,7 +26,9 @@ public class Logout extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {            
             HttpSession se=request.getSession(false);  
             se.invalidate();   
-            out.println("<div class=\"alert alert-warning\">You have sucessfully logged out.</div>");
+            out.println("<div class=\"alert alert-warning alert-dismissible\">You have sucessfully logged out.</div>");
+            out.println("<script src=\"./Project_Web/bootstrap/js/jquery.js\"></script>");
+            out.println("<script type=\"text/javascript\" src=\"./Project_Web/bootstrap/js/bootstrap.js\"></script>");
             RequestDispatcher requestdispatcher=request.getRequestDispatcher("LoginCaptcha");            
             requestdispatcher.include(request,response);
         }

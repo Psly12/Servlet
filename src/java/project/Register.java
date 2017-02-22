@@ -29,7 +29,7 @@ public class Register extends HttpServlet {
                     "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/main.css\">\n");
             if(!(pass.equals(cnf)))
             {
-               out.println("<div class=\"alert alert-warning\">Please re-confirm your password.</div>");
+               out.println("<div class=\"alert alert-warning alert-dismissible\">Please re-confirm your password.</div>");
                RequestDispatcher requestdispatcher=request.getRequestDispatcher("./Project_Web/Registration.html");
                requestdispatcher.include(request,response);
             }
@@ -46,21 +46,23 @@ public class Register extends HttpServlet {
             int result=stmt.executeUpdate();
             if(result==1)
             {
-               out.println("<div class=\"alert alert-warning\">Registration Successfull, Please Login in using corrcect credentials</div>");
+               out.println("<div class=\"alert alert-warning alert-dismissible\">Registration Successfull, Please Login in using corrcect credentials</div>");
                RequestDispatcher requestdispatcher=request.getRequestDispatcher("LoginCaptcha");
                requestdispatcher.include(request,response);
             }
             else
             {
-                out.println("<div class=\"alert alert-warning\">Registration Failed, please try again</div>");
+                out.println("<div class=\"alert alert-warning alert-dismissible\">Registration Failed, please try again</div>");
                RequestDispatcher requestdispatcher=request.getRequestDispatcher("LoginCaptcha");
                requestdispatcher.include(request,response);
             }
             con.close();
             }
+            out.println("<script src=\"./Project_Web/bootstrap/js/jquery.js\"></script>");
+            out.println("<script type=\"text/javascript\" src=\"./Project_Web/bootstrap/js/bootstrap.js\"></script>");
         } catch (SQLException | ClassNotFoundException ex) {
-            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
-        }
+            Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);           
+        }        
     }
 
     @Override

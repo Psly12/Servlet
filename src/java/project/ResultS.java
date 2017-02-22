@@ -42,7 +42,7 @@ public class ResultS extends HttpServlet {
             HttpSession se=request.getSession(false);  
             if(se==null || !request.isRequestedSessionIdValid() )
             {   
-                out.println("<div class=\"alert alert-warning\">Invalid Session. Please Login First</div>");
+                out.println("<div class=\"alert alert-warning alert-dismissible\">Invalid Session. Please Login First</div>");
                 RequestDispatcher requestdispatcher=request.getRequestDispatcher("LoginCaptcha");
                 requestdispatcher.include(request,response);
             } 

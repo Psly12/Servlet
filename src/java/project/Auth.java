@@ -39,14 +39,14 @@ public class Auth extends HttpServlet {
             session.invalidate();
             if(!ans.equals(cap1))
             {
-               out.println("<div class=\"alert alert-warning\">Please Enter correct Captcha</div>");
+               out.println("<div class=\"alert alert-warning alert-dismissible\">Please Enter correct Captcha</div>");
                RequestDispatcher requestdispatcher=request.getRequestDispatcher("LoginCaptcha");
                requestdispatcher.include(request,response);
                 
             }
             else if("".equals(uname)&&"".equals(pass))
             {
-                out.println("<div class=\"alert alert-warning\">Please Enter Username and Password, fields cannot be left blank.</div>");
+                out.println("<div class=\"alert alert-warning alert-dismissible\">Please Enter Username and Password, fields cannot be left blank.</div>");
                 RequestDispatcher requestdispatcher=request.getRequestDispatcher("LoginCaptcha");
                 requestdispatcher.include(request,response);
             }
@@ -58,11 +58,13 @@ public class Auth extends HttpServlet {
             }
             else
             {
-                out.println("<div class=\"alert alert-warning\">Please Enter correct Username and password or register..</div>");
+                out.println("<div class=\"alert alert-warning alert-dismissible\">Please Enter correct Username and password or register..</div>");
                 RequestDispatcher requestdispatcher=request.getRequestDispatcher("LoginCaptcha");
                 requestdispatcher.include(request,response);
             }
             con.close();
+            out.println("<script src=\"./Project_Web/bootstrap/js/jquery.js\"></script>");
+            out.println("<script type=\"text/javascript\" src=\"./Project_Web/bootstrap/js/bootstrap.js\"></script>");
             out.println("</body>");
             out.println("</html>");
         } catch (ClassNotFoundException ex) {

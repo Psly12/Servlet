@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head> 
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.css">
+                <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">
+		<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+                <link rel="stylesheet" href="bootstrap/css/main_1.css" type="text/css"/>
+		<title>Add</title>
+	</head>
+	<body>
+            <a href="../Servlet/Logout"><button class='btn btn-primary pull-right col-lg-1'>Logout</button></a>
+            <div class="container">
+            <div class="panel-heading">
+                <div class="panel-title text-center">
+	            <h1>Add Question</h1>
+	            <hr />
+	        </div>
+	    </div>             
+            <div class="main-login main-center">
+		<form class="form-horizontal" method="post" action="\Servlet\Add">
+                    <div class="form-group">
+			<label for="name" class="cols-sm-2 control-label">&nbsp;&nbsp;&nbsp;&nbsp;Subject : </label>
+				<select name="subject">
+                                    <option value="j1">Java</option>
+                                    <option value="c1">C</option>
+                                    <option value="c2">C++</option>
+                                </select>
+                    </div>
+                    <div class="form-group">
+			<label for="question" class="cols-sm-2 control-label">&nbsp;&nbsp;&nbsp;&nbsp;Question : </label>
+			<div class="cols-sm-10">
+                            <div class="input-group">
+                                &nbsp;<textarea class="form-control" name="question" placeholder="Enter your Question" style="left: 15px"></textarea>
+			</div>
+			</div>
+                    </div>
+                    <label class="cols-sm-2 control-label">Options : (select the correct option) </label>
+                         <div class="funkyradio">
+				<div class="funkyradio-success">
+                                    <input type="radio" name="opc" id="radio1" value="op1"/>
+                                    <label for="radio1"><input type="text" class="form-control" name="option1" placeholder="Option 1" style="text-indent: 30px"/></label>
+                                </div>
+                            </div>
+                        <div class="funkyradio">
+				<div class="funkyradio-success">
+                                    <input type="radio" name="opc" id="radio2" value="op2"/>
+                                    <label for="radio2"><input type="text" class="form-control" name="option2" placeholder="Option 2" style="text-indent: 30px"/></label>
+                                </div>
+                        </div>
+                        <div class="funkyradio">
+				<div class="funkyradio-success">
+                                    <input type="radio" name="opc" id="radio3" value="op3"/>
+                                    <label for="radio3"><input type="text" class="form-control" name="option3" placeholder="Option 3" style="text-indent: 30px"/></label>
+                                </div>
+                         </div>
+                        <div class="funkyradio">
+				<div class="funkyradio-success">
+                                    <input type="radio" name="opc" id="radio4" value="op4"/>
+                                    <label for="radio4"><input type="text" class="form-control" name="option4" placeholder="Option 4" style="text-indent: 30px"/></label>
+                                </div>
+                        </div>
+                    <div class="form-group ">
+			<button type="submit" class="btn btn-primary btn-lg btn-block login-button">Add</button>
+                        <button type="reset" class="btn btn-primary btn-lg btn-block login-button">Reset</button>
+                    </div>
+		</form>
+            </div>
+		<script type="text/javascript" src="bootstrap/js/bootstrap.js"></script>
+                </div>
+	</body>
+</html>

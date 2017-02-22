@@ -104,6 +104,10 @@
         <servlet-name>QuizSelection</servlet-name>
         <servlet-class>project.QuizSelection</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>viewprev</servlet-name>
+        <servlet-class>project.viewprev</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Color</servlet-name>
         <url-pattern>/Color</url-pattern>
@@ -203,6 +207,10 @@
     <servlet-mapping>
         <servlet-name>QuizSelection</servlet-name>
         <url-pattern>/QuizSelection</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>viewprev</servlet-name>
+        <url-pattern>/viewprev</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

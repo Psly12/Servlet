@@ -8,6 +8,9 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -16,6 +19,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 
 public class ResultS extends HttpServlet {
 
@@ -45,7 +49,8 @@ public class ResultS extends HttpServlet {
                 out.println("<div class=\"alert alert-warning alert-dismissible\">Invalid Session. Please Login First</div>");
                 RequestDispatcher requestdispatcher=request.getRequestDispatcher("LoginCaptcha");
                 requestdispatcher.include(request,response);
-            } 
+            }
+            se.setAttribute("subcode",scode); 
             Class.forName("com.mysql.jdbc.Driver");              
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost/quiz","root","");
             for(int i=0;i<5;i++)
@@ -61,6 +66,16 @@ public class ResultS extends HttpServlet {
                 if(rsoc.next())
                     score++;
             }
+            DateFormat df = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
+            Date dateobj = new Date();
+            PreparedStatement stmt;
+            stmt = con.prepareStatement("insert into track values (?,?,?,?,?)");
+            stmt.setString(1, (String)se.getAttribute("uname"));
+            stmt.setInt(2, score);
+            stmt.setInt(3, attempt);
+            stmt.setString(4, scode);
+            stmt.setString(5, df.format(dateobj));
+            int result=stmt.executeUpdate();
             out.println("<!DOCTYPE html>");
             out.println("<html>");
             out.println("<head>");
@@ -71,7 +86,8 @@ public class ResultS extends HttpServlet {
             out.println("<title>Result</title>");            
             out.println("</head>");
             out.println("<body>");
-            out.println("<a href=\"../Servlet/Logout\"><button class='btn btn-primary pull-right col-lg-1'>Logout</button></a>");
+            out.println("<div class=\"row\"><a href=\"../Servlet/Logout\"><button class='btn btn-primary pull-right col-lg-1'>Logout</button></a></div>");
+            out.println("<div class=\"row\"><a href=\"../Servlet/viewprev\"><button class='btn btn-primary pull-right col-lg-1'>View</button></a></div>");
             out.println("<div class=\"container\">");
             out.println("<div class=\"panel-heading\">\n" +
                             "<div class=\"panel-title text-center\">\n" +

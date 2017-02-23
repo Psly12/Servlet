@@ -12,6 +12,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.servlet.RequestDispatcher;
@@ -28,49 +30,90 @@ public class Add extends HttpServlet {
         try (PrintWriter out = response.getWriter()) {
             String sub = request.getParameter("subject");
             String quest = request.getParameter("question");
-            String op1=request.getParameter("option1");
-            String op2=request.getParameter("option2");
-            String op3=request.getParameter("option3");
-            String op4=request.getParameter("option4");
+            String[] abcd={"A - ","B - ","C - ","D - "};
+            List<String> optList = new ArrayList<>();
+            for (int i = 1; i <=4; i++) {
+                if(!((request.getParameter("option"+i)).equals("")))
+                {
+                    optList.add(new String(abcd[i-1]+request.getParameter("option"+i)));
+                }              
+            }
             String correct=request.getParameter("opc");
             out.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n"+
                     "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/bootstrap.css\">\n"+
                     "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/bootstrap.min.css\">\n" +
                     "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/main_1.css\">\n");
-            if(sub.equals("")||quest.equals("")||op1.equals("")||op2.equals("")||op3.equals("")||op4.equals("")||correct.equals(""))
+            if(optList.size()!=4||sub.equals("")||quest.equals("")||correct.equals(""))
             {
                out.println("<div class=\"alert alert-warning alert-dismissible\">Please fill everything.</div>");
                RequestDispatcher requestdispatcher=request.getRequestDispatcher("./Project_Web/AddQ.html");
                requestdispatcher.include(request,response);
             }
             else
-            {   
-            out.println(sub+quest+op1+op2+op3+op4+correct);
-            int pkey = 0;
+            {
+            Integer pkey = null;
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost/quiz", "root", "");
-            PreparedStatement pstmtqn=con.prepareStatement("SELECT MAX(CAST((SUBSTRING(qid , 3)) as UNSIGNED)) AS max FROM `submast` where sid='"+sub+"'");        
-            ResultSet rsq=pstmtqn.executeQuery();
-            while(rsq.next()){
-            pkey = Integer.parseInt(rsq.getString("max"));}           
-            out.println(pkey);
-            /*PreparedStatement stmtq;
-            stmtq = con.prepareStatement("insert into questmast values (?,?)");
-            stmtq.setString(1, name);
-            stmtq.setString(2, email);
-            int result=stmt.executeUpdate();
-            if(result==1)
+            PreparedStatement max=con.prepareStatement("SELECT MAX(CAST((SUBSTRING(qid , 3)) as UNSIGNED)) AS max FROM `submast` where sid='"+sub+"'");        
+            ResultSet mx=max.executeQuery();
+            while(mx.next()){
+            pkey = mx.getInt("max");}
+            pkey++;
+            String spkey=null;
+            if(sub.equals("j1"))
             {
-               out.println("<div class=\"alert alert-warning alert-dismissible\">Registration Successfull, Please Login in using corrcect credentials</div>");
-               RequestDispatcher requestdispatcher=request.getRequestDispatcher("LoginCaptcha");
-               requestdispatcher.include(request,response);
+                spkey="jq"+pkey;
+            }
+            else if(sub.equals("c1"))
+            {
+                spkey="cq"+pkey;
             }
             else
             {
-                out.println("<div class=\"alert alert-warning alert-dismissible\">Registration Failed, please try again</div>");
-               RequestDispatcher requestdispatcher=request.getRequestDispatcher("LoginCaptcha");
+                spkey="c2q"+pkey;
+            }
+            PreparedStatement submast = con.prepareStatement("insert into submast values (?,?)");
+            submast.setString(1,sub);
+            submast.setString(2,spkey);
+            int result1=submast.executeUpdate();
+            if(result1==1)
+            {
+               PreparedStatement questmast = con.prepareStatement("insert into questmast values (?,?)");
+               questmast.setString(1,spkey);
+               questmast.setString(2,quest);
+               int result2=questmast.executeUpdate();
+               if(result2==1)
+               {
+                    int result3=0;
+                    for (int i = 0; i <optList.size(); i++) {
+                    PreparedStatement optmast = con.prepareStatement("insert into optmast values (?,?,?)");
+                    optmast.setString(1,spkey);
+                    optmast.setString(2,"op"+i);
+                    optmast.setString(3,optList.get(i));           
+                    result3=optmast.executeUpdate();
+                   }
+                   if(result3==1)
+                   {
+                        PreparedStatement ans = con.prepareStatement("insert into ans values (?,?)");
+                        ans.setString(1,spkey);
+                        ans.setString(2,correct);
+                        int result4=ans.executeUpdate();
+                        if(result4==1)
+                        {
+                            con.close();
+                            out.println("<div class=\"alert alert-success alert-dismissible\">Addition Successfull!</div>");
+                            RequestDispatcher requestdispatcher=request.getRequestDispatcher("./Project_Web/AddQ.html");
+                            requestdispatcher.include(request,response);
+                        }
+                   }                   
+               }
+            }
+            else
+            {
+                out.println("<div class=\"alert alert-warning alert-dismissible\">Addition Failed</div>");
+               RequestDispatcher requestdispatcher=request.getRequestDispatcher("./Project_Web/AddQ.html");
                requestdispatcher.include(request,response);
-            }*/
+            }
             con.close();
             }        
             out.println("<script src=\"./Project_Web/bootstrap/js/jquery.js\"></script>");

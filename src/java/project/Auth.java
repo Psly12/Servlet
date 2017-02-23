@@ -53,7 +53,8 @@ public class Auth extends HttpServlet {
             else if(rs.next())
             { 
                 HttpSession se = request.getSession(true);
-                se.setAttribute("uname",uname);  
+                se.setAttribute("uname",uname);
+                con.close();
                 response.sendRedirect("../Servlet/QuizSelection");
             }
             else
@@ -63,6 +64,7 @@ public class Auth extends HttpServlet {
                 requestdispatcher.include(request,response);
             }
             con.close();
+            out.print("Test");
             out.println("<script src=\"./Project_Web/bootstrap/js/jquery.js\"></script>");
             out.println("<script type=\"text/javascript\" src=\"./Project_Web/bootstrap/js/bootstrap.js\"></script>");
             out.println("</body>");

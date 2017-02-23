@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 public class Add extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws ServletException, IOException {
+            throws IOException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String sub = request.getParameter("subject");
@@ -46,11 +46,11 @@ public class Add extends HttpServlet {
             else
             {
             */   
+            out.println(sub+quest+op1+op2+op3+op4+correct);
             int pkey = 0;
             Class.forName("com.mysql.jdbc.Driver");
             Connection con = DriverManager.getConnection("jdbc:mysql://localhost/quiz", "root", "");
-            PreparedStatement pstmtqn=con.prepareStatement("SELECT MAX(CAST((SUBSTRING(qid , 3)) as UNSIGNED)) AS max FROM `submast` where sid='c1'");
-            //pstmtqn.setString(1,"jq1");           
+            PreparedStatement pstmtqn=con.prepareStatement("SELECT MAX(CAST((SUBSTRING(qid , 3)) as UNSIGNED)) AS max FROM `submast` where sid='"+sub+"'");        
             ResultSet rsq=pstmtqn.executeQuery();
             while(rsq.next()){
             pkey = Integer.parseInt(rsq.getString("max"));}           

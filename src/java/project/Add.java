@@ -23,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 public class Add extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
-            throws IOException {
+            throws IOException, ServletException {
         response.setContentType("text/html;charset=UTF-8");
         try (PrintWriter out = response.getWriter()) {
             String sub = request.getParameter("subject");
@@ -37,15 +37,14 @@ public class Add extends HttpServlet {
                     "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/bootstrap.css\">\n"+
                     "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/bootstrap.min.css\">\n" +
                     "<link rel=\"stylesheet\" type=\"text/css\" href=\"./Project_Web/bootstrap/css/main_1.css\">\n");
-            /*if(sub.equals("")&&quest.equals("")&&op1.equals("")&&op2.equals("")&&op3.equals("")&&op4.equals("")&&correct.equals(""))
+            if(sub.equals("")||quest.equals("")||op1.equals("")||op2.equals("")||op3.equals("")||op4.equals("")||correct.equals(""))
             {
                out.println("<div class=\"alert alert-warning alert-dismissible\">Please fill everything.</div>");
                RequestDispatcher requestdispatcher=request.getRequestDispatcher("./Project_Web/AddQ.html");
                requestdispatcher.include(request,response);
             }
             else
-            {
-            */   
+            {   
             out.println(sub+quest+op1+op2+op3+op4+correct);
             int pkey = 0;
             Class.forName("com.mysql.jdbc.Driver");
@@ -73,7 +72,7 @@ public class Add extends HttpServlet {
                requestdispatcher.include(request,response);
             }*/
             con.close();
-            /*}*/        
+            }        
             out.println("<script src=\"./Project_Web/bootstrap/js/jquery.js\"></script>");
             out.println("<script type=\"text/javascript\" src=\"./Project_Web/bootstrap/js/bootstrap.js\"></script>");
         }

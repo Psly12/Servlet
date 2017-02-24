@@ -112,6 +112,10 @@
         <servlet-name>Add</servlet-name>
         <servlet-class>project.Add</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AddQ</servlet-name>
+        <servlet-class>project.AddQ</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>Color</servlet-name>
         <url-pattern>/Color</url-pattern>
@@ -219,6 +223,10 @@
     <servlet-mapping>
         <servlet-name>Add</servlet-name>
         <url-pattern>/Add</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AddQ</servlet-name>
+        <url-pattern>/AddQ</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

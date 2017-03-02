@@ -46,7 +46,7 @@ public class Add extends HttpServlet {
             if(optList.size()!=4||sub.equals("")||quest.equals("")||correct.equals(""))
             {
                out.println("<div class=\"alert alert-warning alert-dismissible\">Please fill everything.</div>");
-               RequestDispatcher requestdispatcher=request.getRequestDispatcher("./Project_Web/AddQ.html");
+               RequestDispatcher requestdispatcher=request.getRequestDispatcher("AddQ");
                requestdispatcher.include(request,response);
             }
             else
@@ -102,7 +102,7 @@ public class Add extends HttpServlet {
                         {
                             con.close();
                             out.println("<div class=\"alert alert-success alert-dismissible\">Addition Successfull!</div>");
-                            RequestDispatcher requestdispatcher=request.getRequestDispatcher("./Project_Web/AddQ.html");
+                            RequestDispatcher requestdispatcher=request.getRequestDispatcher("AddQ");
                             requestdispatcher.include(request,response);
                         }
                    }                   
@@ -111,7 +111,7 @@ public class Add extends HttpServlet {
             else
             {
                 out.println("<div class=\"alert alert-warning alert-dismissible\">Addition Failed</div>");
-               RequestDispatcher requestdispatcher=request.getRequestDispatcher("./Project_Web/AddQ.html");
+               RequestDispatcher requestdispatcher=request.getRequestDispatcher("AddQ");
                requestdispatcher.include(request,response);
             }
             con.close();

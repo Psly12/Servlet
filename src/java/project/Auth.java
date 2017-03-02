@@ -53,8 +53,9 @@ public class Auth extends HttpServlet {
             else if("admin".equals(uname)&&"admin".equals(pass))
             {
                 HttpSession se = request.getSession(true);
-                se.setAttribute("uname",uname);
+                se.setAttribute("uname",uname);              
                 con.close();
+                out.println("<div class=\"alert alert-warning alert-dismissible\">Welcome, Admin.</div>");
                 response.sendRedirect("../Servlet/AddQ");
             }
             else if(rs.next())

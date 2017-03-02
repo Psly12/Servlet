@@ -51,8 +51,7 @@ public class AddQ extends HttpServlet {
 "                <link rel=\"stylesheet\" href=\"./Project_Web/bootstrap/css/main_1.css\" type=\"text/css\"/>\n" +
 "		<title>Add</title>\n" +
 "	</head>\n" +
-"	<body>\n" +
-                    "<div class=\"alert alert-warning alert-dismissible\">Welcome, Admin.</div>"+
+"	<body>\n" +                   
 "            <a href=\"../Servlet/Logout\"><button class='btn btn-primary pull-right col-lg-1'>Logout</button></a>\n" +
 "            <div class=\"container\">\n" +
 "            <div class=\"panel-heading\">\n" +
